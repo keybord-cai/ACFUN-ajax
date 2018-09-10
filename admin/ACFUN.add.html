@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插入</title>
+</head>
+<body>
+    <h1>插入内容</h1>
+    <label>请输入菜单名称</label>
+    <input type="text" id="staffName" /><br>
+    <label>请输入链接地址</label>
+    <input type="text" id="staffUrl"><br>
+    <label>请选择父菜单</label>
+    <SELECT id="staffParent">
+    </SELECT><br>
+    <button id="save">保存</button>
+    <p id="createResult"></p>
+
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.js"></script>
+    <script>
+        var json;
+        $(document).ready(function(){
+            $.ajax({
+                type:'GET',
+                url:"http://localhost/ACFUN%5bAjax%5d/JSON.php",
+                dateType:"json",
+                success:function (data) {
+                    json = JSON.parse(data);
+                    // console.log(json);
+                    var htm1 ='<option>无父菜单</option>';
+                    for (let index = 0; index < json.length; index++) {
+                        htm1 +='<option>' +json[index].name+ '</option>';
+                        // console.log(htm1);
+                    }
+                    $("#staffParent").html(htm1);
+                },
+                error: function(jqXHR){
+                    alert("发生错误：" + jqXHR.status);
+                },
+            })
+        });
+
+        $("#save").click(function(){
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/ACFUN%5bAjax%5d/ACFUN.add.handle.php",
+                data: {
+                    name: $("#staffName").val(),
+                    url: $("#staffUrl").val(),
+                    parent_id: $("#staffParent").val()
+                },
+                dataType: "json",
+                success: function(data){
+                    if (data.success) {
+                        $("#createResult").html(data.msg);
+                    } else {
+                        $("#createResult").html("出现错误：" + data.msg);
+                    }
+                },
+                error: function(jqXHR){
+                    alert("发生错误：" + jqXHR.status);
+                },
+            });
+        });
+    </script>
+</body>
+</html>

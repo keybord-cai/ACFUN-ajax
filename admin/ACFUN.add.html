@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>插入</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
+<style>
+    div{
+        width: 400px;
+        margin: 0 auto;
+    }
+</style>
 <body>
-    <h1>插入内容</h1>
-    <label>请输入菜单名称</label>
-    <input type="text" id="staffName" /><br>
-    <label>请输入链接地址</label>
-    <input type="text" id="staffUrl"><br>
-    <label>请选择父菜单</label>
-    <SELECT id="staffParent">
-    </SELECT><br>
-    <button id="save">保存</button>
-    <p id="createResult"></p>
-
-    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.js"></script>
+    <div class="text-center">
+        <h1>插入内容</h1>
+        <label>菜单名称:</label>
+        <input type="text" id="staffName"><br>
+        <label>链接地址:</label>
+        <input type="text" id="staffUrl"><br>
+        <label>父菜单:</label>
+        <SELECT id="staffParent">
+        </SELECT><br>
+        <button class="btn btn-primary btn-sm"id="save">保存</button>
+        <p id="createResult"></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
         var json;
         $(document).ready(function(){

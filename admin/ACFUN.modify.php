@@ -66,8 +66,19 @@ if (isset($_GET['id'])) {
                 id: $("#staffId").val(),
                 name: $("#staffName").val(),
                 url: $("#staffUrl").val(),
-                parent_id: $("#staffParent").val()
-            }
+                parent_id: $("#staffParent").val(),
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    $("#createResult").html(data.msg);
+                } else {
+                    $("#createResult").html("出现错误：" + data.msg);
+                }
+            },
+            error: function (jqXHR) {
+                alert("发生错误：" + jqXHR.status);
+            },
         })
     });
 </script>

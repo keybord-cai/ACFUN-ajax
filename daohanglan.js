@@ -19,7 +19,7 @@ var json;
 $(document).ready(function () {
     $.ajax({
         type:'GET',
-        url:"http://localhost/ACFUN%5bAjax%5d/JSON.php",
+        url:"http://localhost/ACFUN-ajax/JSON.php",
         dateType:"json",
         success:function (data) {
             json = JSON.parse(data);

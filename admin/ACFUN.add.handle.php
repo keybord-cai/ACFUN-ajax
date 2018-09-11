@@ -2,6 +2,7 @@
     require_once('../connect.php');
     $name = $_POST["name"];
     $url = 'http://' .$_POST["url"].'/';
+
     $sql = "select * from nav ORDER BY 'id'";
     $row = mysqli_query($con,$sql);
     while($rows = mysqli_fetch_assoc($row)){
@@ -11,6 +12,7 @@
             $parent_id = $rows['id'];
         }
     }
+
     $insertsql = "insert into nav(name,url,parent_id) values('$name', '$url', '$parent_id')";
 
     if (!isset($_POST["name"]) || empty($_POST["name"])

@@ -2,7 +2,7 @@
     require_once('../connect.php');
     if (!isset($_POST["name"]) || empty($_POST["name"])
         || !isset($_POST["url"]) || empty($_POST["url"])
-        || !isset($_POST["Parent_id"]) || empty($_POST["parent_id"])) {
+        || !isset($_POST["parent_id"]) || empty($_POST["parent_id"])) {
         echo '{"success":false,"msg":"参数错误，信息填写不全"}';
     }
     $name = $_POST["name"];

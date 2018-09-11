@@ -22,7 +22,7 @@
         $(document).ready(function(){
             $.ajax({
                 type:'GET',
-                url:"http://localhost/ACFUN%5bAjax%5d/JSON.php",
+                url:"http://localhost/ACFUN-ajax/JSON.php",
                 dateType:"json",
                 success:function (data) {
                     json = JSON.parse(data);
@@ -43,7 +43,7 @@
         $("#save").click(function(){
             $.ajax({
                 type: "POST",
-                url: "http://localhost/ACFUN%5bAjax%5d/ACFUN.add.handle.php",
+                url: "http://localhost/ACFUN-ajax/admin/ACFUN.add.handle.php",
                 data: {
                     name: $("#staffName").val(),
                     url: $("#staffUrl").val(),

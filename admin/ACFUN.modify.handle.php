@@ -6,7 +6,10 @@ $name = $_POST['name'];
 $url = $_POST["url"];
 $parent_id = $_POST["parent_id"];
 
-$updatesql = "UPDATE nav set name = $name, url= $url , parent_id = $parent_id where id = $id";
+$updatesql = "update `nav` set `name` = '$name', `url`= '$url' , `parent_id` = $parent_id where `id` = $id";
+
+//$updatesql = "UPDATE `nav` set `name` = '动画', `url`= '1234654' , `parent_id` = 0 where `id`= 3";
+//echo $updatesql;
 
 $modify = new nav();
 
@@ -18,8 +21,9 @@ if (!isset($_POST["name"]) || empty($_POST["name"])
 ) {
     echo '{"success":false,"msg":"参数错误，信息填写不全"}';
 } else {
-    $modify ->modify($con,$updatesql);
+    $modify->modify($con, $updatesql);
 }
+
 class nav
 {
     function modify($con, $sql)
@@ -31,4 +35,5 @@ class nav
         }
     }
 }
+
 ?>

@@ -14,14 +14,14 @@
 </style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="http://localhost/ACFUN-ajax/admin/ACFUN.manage.php">菜单后台管理系统</a>
+    <a class="navbar-brand" href="ACFUN.manage.html">菜单后台管理系统</a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-md-0">
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost/ACFUN-ajax/admin/ACFUN.add.html">插入菜单</a>
+                <a class="nav-link" href="ACFUN.add.html">插入菜单</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost/ACFUN-ajax/admin/ACFUN.modify.php">修改菜单</a>
+                <a class="nav-link" href="ACFUN.modify.html">修改菜单</a>
             </li>
         </ul>
     </div>
@@ -47,13 +47,13 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script>
-    var json;
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
-            url: "http://localhost/ACFUN-ajax/JSON.php",
+            url: "../JSON.php",
             dateType: "json",
             success: function (data) {
+                var json;
                 json = JSON.parse(data);
                 // console.log(json);
                 var htm1 = '<option>无父菜单</option>';
@@ -72,7 +72,7 @@
     $("#save").click(function () {
         $.ajax({
             type: "POST",
-            url: "http://localhost/ACFUN-ajax/admin/ACFUN.add.handle.php",
+            url: "ACFUN.add.handle.php",
             data: {
                 name: $("#staffName").val(),
                 url: $("#staffUrl").val(),

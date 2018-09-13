@@ -64,19 +64,17 @@
                 // console.log(json);
                 for (let index1 = 0; index1 < json.length; index1++) {
                     if (json[index1].id == getid) {
-                        console.log(json[index1].id);
-                        $("#staffId").html(json[index1].id);
-                        $("#staffName").html(json[index1].name);
-                        $("#staffUrl").html(json[index1].url);
-                        $("#staffParent").html(json[index1].parent_id);
+                        $("#staffId").val(json[index1].id);
+                        $("#staffName").val(json[index1].name);
+                        $("#staffUrl").val(json[index1].url);
+                        $("#staffParent").val(json[index1].parent_id);
                     }
                     for (let index2 = 0; index2 < json[index1].childrens.length; index2++) {
                         if (json[index1].childrens[index2].id == getid) {
-                            console.log(json[index1].childrens[index2].parent_id);
-                            $("#staffId").html(json[index1].childrens[index2].id);
-                            $("#staffName").html(json[index1].childrens[index2].name);
-                            $("#staffUrl").html(json[index1].childrens[index2].url);
-                            $("#staffParent").html(json[index1].childrens[index2].parent_id);
+                            $("#staffId").val(json[index1].childrens[index2].id);
+                            $("#staffName").val(json[index1].childrens[index2].name);
+                            $("#staffUrl").val(json[index1].childrens[index2].url);
+                            $("#staffParent").val(json[index1].childrens[index2].parent_id);
                         }
                     }
                 }

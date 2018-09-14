@@ -1,47 +1,327 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>菜单后台管理系统</title>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>菜单管理系统</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .barcon {
+            width: auto;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .barcon1 {
+            font-size: 17px;
+            float: left;
+            margin-top: 20px;
+        }
+
+        .barcon2 {
+            float: right;
+        }
+
+        .barcon2 ul {
+            margin: 20px 0;
+            padding-left: 0;
+            list-style: none;
+            text-align: center;
+        }
+
+        .barcon2 li {
+            display: inline;
+        }
+
+        .barcon2 a {
+            font-size: 16px;
+            font-weight: normal;
+            display: inline-block;
+            padding: 5px;
+            padding-top: 0;
+            color: black;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .barcon2 a:hover {
+            background-color: #eee;
+        }
+
+        .ban {
+            opacity: .4;
+        }
+    </style>
+
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="ACFUN.manage.html">菜单后台管理系统</a>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-            <li class="nav-item">
-                <a class="nav-link" href="ACFUN.add.html">插入菜单</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="ACFUN.modify.html">修改菜单</a>
-            </li>
-        </ul>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="img/profile_small.jpg"/>
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong
+                                    class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b
+                                    class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="login.html">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="index.html">
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">菜单管理系统</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="layouts.html">
+                        <i class="fa fa-diamond"></i>
+                        <span class="nav-label">插入菜单</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="layouts.html">
+                        <i class="fa fa-diamond"></i>
+                        <span class="nav-label">修改菜单</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                    <form role="search" class="navbar-form-custom" action="search_results.html">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control"
+                                   name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="img/a7.jpg">
+                                    </a>
+                                    <div class="media-body">
+                                        <small class="pull-right">46h ago</small>
+                                        <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>.
+                                        <br>
+                                        <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="img/a4.jpg">
+                                    </a>
+                                    <div class="media-body ">
+                                        <small class="pull-right text-navy">5h ago</small>
+                                        <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica
+                                        Smith</strong>. <br>
+                                        <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="img/profile.jpg">
+                                    </a>
+                                    <div class="media-body ">
+                                        <small class="pull-right">23h ago</small>
+                                        <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                        <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a href="mailbox.html">
+                                        <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li>
+                                <a href="mailbox.html">
+                                    <div>
+                                        <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                        <span class="pull-right text-muted small">4 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="profile.html">
+                                    <div>
+                                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                        <span class="pull-right text-muted small">12 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="grid_options.html">
+                                    <div>
+                                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                        <span class="pull-right text-muted small">4 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a href="notifications.html">
+                                        <strong>See All Alerts</strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="login.html">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>菜单管理系统</h2>
+                <ol class="breadcrumb">
+                    <li class="active">
+                        <strong>菜单列表</strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>菜单</th>
+                                        <th>链接地址</th>
+                                        <th>父菜单</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="list"></tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>菜单</th>
+                                        <th>链接地址</th>
+                                        <th>父菜单</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                                <div id="barcon" class="barcon">
+                                    <div id="barcon1" class="barcon1"></div>
+                                    <div id="barcon2" class="barcon2">
+                                        <ul>
+                                            <li><a href="###" id="firstPage">首页</a></li>
+                                            <li><a href="###" id="prePage">上一页</a></li>
+                                            <li><a href="###" id="nextPage">下一页</a></li>
+                                            <li><a href="###" id="lastPage">尾页</a></li>
+                                            <li><select id="jumpWhere">
+                                            </select></li>
+                                            <li><a href="###" id="jumpPage" onclick="jumpPage()">跳转</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2017
+            </div>
+        </div>
+
     </div>
-</nav>
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>菜单名称</th>
-        <th>链接地址</th>
-        <th>父菜单ID</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody id="list">
-    </tbody>
-</table>
+</div>
+
+
+<!-- Mainly scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="js/plugins/dataTables/datatables.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+<!-- Page-Level Scripts -->
 <script>
+    // 从数据库倒入数据并添加到表格
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
@@ -49,13 +329,13 @@
             dateType: "json",
             success: function (data) {
                 var json = JSON.parse(data);
-                var htm = '';
                 // console.log(json);
+                var htm = '';
                 for (let index1 = 0; index1 < json.length; index1++) {
                     htm += '<tr></tr><td>' + json[index1].id + '</td>'
                         + '<td>' + json[index1].name + '</td>'
                         + '<td>' + json[index1].url + '</td>'
-                        + '<td>' + json[index1].parent_id + '</td>'
+                        + '<td>' + parent(json[index1].parent_id, json) + '</td>'
                         + '<td> ' +
                         '<a href="ACFUN.del.handle.php?id=' + json[index1].id + '">删除</a> ' +
                         '<a href="ACFUN.modify.html?id=' + json[index1].id + '">修改</a> ' +
@@ -64,7 +344,7 @@
                         htm += '<tr><td>' + json[index1].childrens[index2].id + '</td>'
                             + '<td>' + json[index1].childrens[index2].name + '</td>'
                             + '<td>' + json[index1].childrens[index2].url + '</td>'
-                            + '<td>' + json[index1].childrens[index2].parent_id + '</td>'
+                            + '<td>' + parent(json[index1].childrens[index2].parent_id, json) + '</td>'
                             + '<td> ' +
                             '<a href="ACFUN.del.handle.php?id=' + json[index1].childrens[index2].id + '">删除</a> ' +
                             '<a href="ACFUN.modify.html?id=' + json[index1].childrens[index2].id + '">修改</a> ' +
@@ -73,13 +353,105 @@
                 }
                 // console.log(htm);
                 $("#list").html(htm);
+
+                // 将parent_id转化成相应的名称
+                function parent(parent_id, arry) {
+                    var parentname = "无";
+                    for (let index = 0; index < arry.length; index++) {
+                        if (arry[index].id == parent_id) {
+                            parentname = arry[index].name;
+                        }
+                    }
+                    return parentname
+                }
             },
             error: function (jqXHR) {
                 alert("发生错误：" + jqXHR.status);
             },
         })
     });
-    // document.getElementById("list").innerHTML= htm;
+
+    $(function () {
+        goPage(1, 25);
+        var tempOption = "";
+        for (var i = 1; i <= totalPage; i++) {
+            tempOption += '<option value=' + i + '>' + i + '</option>'
+        }
+        $("#jumpWhere").html(tempOption);
+    });
+
+    // 分页函数
+    // pno--页数
+    // psize--每页显示记录数
+    // 分页部分是从真实数据行开始，因而存在加减某个常数，以确定真正的记录数
+    // 纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能
+
+    var pageSize = 0;//每页显示行数
+    var currentPage_ = 1;//当前页全局变量，用于跳转时判断是否在相同页，在就不跳，否则跳转。
+    var totalPage;//总页数
+    function goPage(pno, psize) {
+        var itable = document.getElementById("list");
+        var num = itable.rows.length;//表格所有行数(所有记录数)
+
+        pageSize = psize;//每页显示行数
+        //总共分几页
+        if (num / pageSize > parseInt(num / pageSize)) {
+            totalPage = parseInt(num / pageSize) + 1;
+        } else {
+            totalPage = parseInt(num / pageSize);
+        }
+        var currentPage = pno;//当前页数
+        currentPage_ = currentPage;
+        var startRow = (currentPage - 1) * pageSize + 1;
+        var endRow = currentPage * pageSize;
+        endRow = (endRow > num) ? num : endRow;
+        //遍历显示数据实现分页
+
+
+        $("#list tr").hide();
+        for (var i = startRow - 1; i < endRow; i++) {
+            $("#list tr").eq(i).show();
+        }
+        var tempStr = "共" + num + "条记录 共分" +  totalPage + "页 当前第" + currentPage + "页";
+        document.getElementById("barcon1").innerHTML = tempStr;
+
+        if (currentPage > 1) {
+            $("#firstPage").on("click", function () {
+                goPage(1, psize);
+            }).removeClass("ban");
+            $("#prePage").on("click", function () {
+                goPage(currentPage - 1, psize);
+            }).removeClass("ban");
+        } else {
+            $("#firstPage").off("click").addClass("ban");
+            $("#prePage").off("click").addClass("ban");
+        }
+
+        if (currentPage < totalPage) {
+            $("#nextPage").on("click", function () {
+                goPage(currentPage + 1, psize);
+            }).removeClass("ban");
+            $("#lastPage").on("click", function () {
+                goPage(totalPage, psize);
+            }).removeClass("ban");
+        } else {
+            $("#nextPage").off("click").addClass("ban");
+            $("#lastPage").off("click").addClass("ban");
+        }
+
+        $("#jumpWhere").val(currentPage);
+    }
+
+
+    function jumpPage() {
+        var num = parseInt($("#jumpWhere").val());
+        if (num != currentPage_) {
+            goPage(num, pageSize);
+        }
+    }
+
 </script>
+
 </body>
+
 </html>

@@ -16,6 +16,11 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+
         .barcon {
             width: auto;
             margin: 0 auto;
@@ -61,6 +66,20 @@
         .ban {
             opacity: .4;
         }
+
+        #shade {
+            background: #000;
+            filter: alpha(opacity=50); /* IE的透明度 */
+            opacity: 0.5; /* 透明度 */
+            display: none;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999; /* 此处的图层要大于页面 */
+            display: none;
+        }
     </style>
 
 </head>
@@ -94,20 +113,20 @@
                     </div>
                 </li>
                 <li class="active">
-                    <a href="index.html">
+                    <a href="ACFUN.manage.html">
                         <i class="fa fa-th-large"></i>
                         <span class="nav-label">菜单管理系统</span>
 
                     </a>
                 </li>
                 <li>
-                    <a href="layouts.html">
+                    <a href="ACFUN.add.html">
                         <i class="fa fa-diamond"></i>
                         <span class="nav-label">插入菜单</span>
                     </a>
                 </li>
                 <li>
-                    <a href="layouts.html">
+                    <a href="ACFUN.modify.html">
                         <i class="fa fa-diamond"></i>
                         <span class="nav-label">修改菜单</span>
                     </a>
@@ -238,7 +257,7 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>菜单管理系统</h2>
+                <h2><strong>菜单管理系统</strong></h2>
                 <ol class="breadcrumb">
                     <li class="active">
                         <strong>菜单列表</strong>
@@ -301,10 +320,9 @@
                 <strong>Copyright</strong> Example Company &copy; 2014-2017
             </div>
         </div>
-
     </div>
 </div>
-
+<div id="shade"></div>
 
 <!-- Mainly scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"
@@ -321,8 +339,10 @@
 
 <!-- Page-Level Scripts -->
 <script>
-    // 从数据库倒入数据并添加到表格
+
     $(document).ready(function () {
+
+        // 从数据库倒入数据并添加到表格
         $.ajax({
             type: 'GET',
             url: "../JSON.php",
@@ -337,7 +357,7 @@
                         + '<td>' + json[index1].url + '</td>'
                         + '<td>' + parent(json[index1].parent_id, json) + '</td>'
                         + '<td> ' +
-                        '<a href="ACFUN.del.handle.php?id=' + json[index1].id + '">删除</a> ' +
+                        '<span onclick="del(' + json[index1].id + ')"><a href="##">删除</a></span> ' +
                         '<a href="ACFUN.modify.html?id=' + json[index1].id + '">修改</a> ' +
                         '</td></tr>';
                     for (let index2 = 0; index2 < json[index1].childrens.length; index2++) {
@@ -346,30 +366,66 @@
                             + '<td>' + json[index1].childrens[index2].url + '</td>'
                             + '<td>' + parent(json[index1].childrens[index2].parent_id, json) + '</td>'
                             + '<td> ' +
-                            '<a href="ACFUN.del.handle.php?id=' + json[index1].childrens[index2].id + '">删除</a> ' +
+                            '<span onclick="del(' + json[index1].childrens[index2].id + ')"><a href="##">删除</a></span> ' +
                             '<a href="ACFUN.modify.html?id=' + json[index1].childrens[index2].id + '">修改</a> ' +
                             '</td></tr>';
                     }
                 }
                 // console.log(htm);
                 $("#list").html(htm);
-
-                // 将parent_id转化成相应的名称
-                function parent(parent_id, arry) {
-                    var parentname = "无";
-                    for (let index = 0; index < arry.length; index++) {
-                        if (arry[index].id == parent_id) {
-                            parentname = arry[index].name;
-                        }
-                    }
-                    return parentname
-                }
             },
             error: function (jqXHR) {
                 alert("发生错误：" + jqXHR.status);
             },
         })
+        // 将parent_id转化成相应的名称
+        function parent(parent_id, arry) {
+            var parentname = "无";
+            for (let index = 0; index < arry.length; index++) {
+                if (arry[index].id == parent_id) {
+                    parentname = arry[index].name;
+                }
+            }
+            return parentname
+        }
+
     });
+
+    function shield() {
+        var shade = document.getElementById("shade");
+        shade.style.display = "block";
+    }
+
+    function cancel_shield() {
+        var shade = document.getElementById("shade");
+        shade.style.display = "none";
+    }
+
+    function del(ID) {
+        event.stopPropagation();
+        shield();
+        $.ajax({
+            type: "GET",
+            url: "ACFUN.del.handle.php",
+            data: {
+                id: ID
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    alert("删除成功");
+                    cancel_shield();
+                    window.location.href = "ACFUN.manage.html";
+                } else {
+                    alert("删除失败");
+                    window.location.href = "ACFUN.manage.html";
+                }
+            },
+            error: function (jqXHR) {
+                alert("发生错误：" + jqXHR.status);
+            },
+        });
+    }
 
     $(function () {
         goPage(1, 25);
@@ -412,7 +468,7 @@
         for (var i = startRow - 1; i < endRow; i++) {
             $("#list tr").eq(i).show();
         }
-        var tempStr = "共" + num + "条记录 共分" +  totalPage + "页 当前第" + currentPage + "页";
+        var tempStr = "共" + num + "条记录 共分" + totalPage + "页 当前第" + currentPage + "页";
         document.getElementById("barcon1").innerHTML = tempStr;
 
         if (currentPage > 1) {
@@ -441,7 +497,6 @@
 
         $("#jumpWhere").val(currentPage);
     }
-
 
     function jumpPage() {
         var num = parseInt($("#jumpWhere").val());

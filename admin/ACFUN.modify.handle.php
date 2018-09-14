@@ -4,7 +4,16 @@ require_once('../connect.php');
 $id = $_POST["id"];
 $name = $_POST['name'];
 $url = $_POST["url"];
-$parent_id = $_POST["parent_id"];
+
+$sql = "select * from nav ORDER BY 'id'";
+$row = mysqli_query($con, $sql);
+while ($rows = mysqli_fetch_assoc($row)) {
+    if ($_POST["parent_id"] == '无') {
+        $parent_id = 0;
+    } else if ($_POST["parent_id"] == $rows['name']) {
+        $parent_id = $rows['id'];
+    }
+}
 
 $updatesql = "update `nav` set `name` = '$name', `url`= '$url' , `parent_id` = $parent_id where `id` = $id";
 

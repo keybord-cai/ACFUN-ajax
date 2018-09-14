@@ -11,9 +11,9 @@ class nav
     function del($con, $sql)
     {
         if (mysqli_query($con, $sql)) {
-            echo "<script>alert('删除成功');window.location.href='http://localhost/ACFUN-ajax/admin/ACFUN.manage.php';</script>";
+            echo '{"success":"true"}';
         } else {
-            echo "<script>alert('删除失败');window.location.href='http://localhost/ACFUN-ajax/admin/ACFUN.manage.php';</script>";
+            echo '{"success":"false"}';
         }
     }
 }

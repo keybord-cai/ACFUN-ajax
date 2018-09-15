@@ -339,57 +339,24 @@
 
 <!-- Page-Level Scripts -->
 <script>
-
+    var table;
     $(document).ready(function () {
-
         // 从数据库倒入数据并添加到表格
         $.ajax({
             type: 'GET',
-            url: "../JSON.php",
+            url: "ACFUN.manage.handle.php",
             dateType: "json",
             success: function (data) {
-                var json = JSON.parse(data);
-                // console.log(json);
-                var htm = '';
-                for (let index1 = 0; index1 < json.length; index1++) {
-                    htm += '<tr></tr><td>' + json[index1].id + '</td>'
-                        + '<td>' + json[index1].name + '</td>'
-                        + '<td>' + json[index1].url + '</td>'
-                        + '<td>' + parent(json[index1].parent_id, json) + '</td>'
-                        + '<td> ' +
-                        '<span onclick="del(' + json[index1].id + ')"><a href="##">删除</a></span> ' +
-                        '<a href="ACFUN.modify.html?id=' + json[index1].id + '">修改</a> ' +
-                        '</td></tr>';
-                    for (let index2 = 0; index2 < json[index1].childrens.length; index2++) {
-                        htm += '<tr><td>' + json[index1].childrens[index2].id + '</td>'
-                            + '<td>' + json[index1].childrens[index2].name + '</td>'
-                            + '<td>' + json[index1].childrens[index2].url + '</td>'
-                            + '<td>' + parent(json[index1].childrens[index2].parent_id, json) + '</td>'
-                            + '<td> ' +
-                            '<span onclick="del(' + json[index1].childrens[index2].id + ')"><a href="##">删除</a></span> ' +
-                            '<a href="ACFUN.modify.html?id=' + json[index1].childrens[index2].id + '">修改</a> ' +
-                            '</td></tr>';
-                    }
-                }
-                // console.log(htm);
-                $("#list").html(htm);
+                table = JSON.parse(data);
+                // console.log(table.length);
+                starpag();
             },
             error: function (jqXHR) {
                 alert("发生错误：" + jqXHR.status);
             },
         })
-        // 将parent_id转化成相应的名称
-        function parent(parent_id, arry) {
-            var parentname = "无";
-            for (let index = 0; index < arry.length; index++) {
-                if (arry[index].id == parent_id) {
-                    parentname = arry[index].name;
-                }
-            }
-            return parentname
-        }
-
     });
+    // console.log(table);
 
     function shield() {
         var shade = document.getElementById("shade");
@@ -401,54 +368,27 @@
         shade.style.display = "none";
     }
 
-    function del(ID) {
-        event.stopPropagation();
-        shield();
-        $.ajax({
-            type: "GET",
-            url: "ACFUN.del.handle.php",
-            data: {
-                id: ID
-            },
-            dataType: "json",
-            success: function (data) {
-                if (data.success) {
-                    alert("删除成功");
-                    cancel_shield();
-                    window.location.href = "ACFUN.manage.html";
-                } else {
-                    alert("删除失败");
-                    window.location.href = "ACFUN.manage.html";
-                }
-            },
-            error: function (jqXHR) {
-                alert("发生错误：" + jqXHR.status);
-            },
-        });
-    }
 
-    $(function () {
-        goPage(1, 25);
+    function starpag() {
+        goPage(1, 20);
         var tempOption = "";
         for (var i = 1; i <= totalPage; i++) {
             tempOption += '<option value=' + i + '>' + i + '</option>'
         }
         $("#jumpWhere").html(tempOption);
-    });
+    };
 
     // 分页函数
     // pno--页数
     // psize--每页显示记录数
     // 分页部分是从真实数据行开始，因而存在加减某个常数，以确定真正的记录数
     // 纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能
-
     var pageSize = 0;//每页显示行数
     var currentPage_ = 1;//当前页全局变量，用于跳转时判断是否在相同页，在就不跳，否则跳转。
     var totalPage;//总页数
     function goPage(pno, psize) {
-        var itable = document.getElementById("list");
-        var num = itable.rows.length;//表格所有行数(所有记录数)
 
+        var num = table.length;//表格所有行数(所有记录数)
         pageSize = psize;//每页显示行数
         //总共分几页
         if (num / pageSize > parseInt(num / pageSize)) {
@@ -461,13 +401,16 @@
         var startRow = (currentPage - 1) * pageSize + 1;
         var endRow = currentPage * pageSize;
         endRow = (endRow > num) ? num : endRow;
-        //遍历显示数据实现分页
+        // console.log(endRow);
 
+        var tablepag = new Array();
+        for (let index = startRow; index <= endRow; index++) {
 
-        $("#list tr").hide();
-        for (var i = startRow - 1; i < endRow; i++) {
-            $("#list tr").eq(i).show();
+            tablepag.push(table[index-1])
         }
+
+        tabletr(tablepag);
+
         var tempStr = "共" + num + "条记录 共分" + totalPage + "页 当前第" + currentPage + "页";
         document.getElementById("barcon1").innerHTML = tempStr;
 
@@ -498,11 +441,70 @@
         $("#jumpWhere").val(currentPage);
     }
 
+
     function jumpPage() {
         var num = parseInt($("#jumpWhere").val());
         if (num != currentPage_) {
             goPage(num, pageSize);
         }
+    }
+
+
+    function tabletr(arr) {
+        var htm = '';
+        for (let index = 0; index < arr.length; index++) {
+            // console.log(arr[index].id);
+            htm += '<tr>' +
+                        '<td>' + arr[index].id + '</td>' +
+                        '<td>' + arr[index].name + '</td>' +
+                        '<td>' + arr[index].url + '</td>' +
+                        '<td>' + parent(arr[index].parent_id) + '</td>' +
+                        '<td>' +
+                            '<span onclick="del(' + arr[index].id + ')"><a href="##">删除</a></span> ' +
+                            '<a href="ACFUN.modify.html?id=' + arr[index].id + '">修改</a> ' +
+                        '</td>' +
+                    '</tr>';
+        }
+        $("#list").html(htm);
+    }
+
+
+    // 将parent_id转化成相应的名称
+    function parent(parent_id) {
+        var parentname = "无";
+        for (let index = 0; index < table.length; index++) {
+            if (table[index].id == parent_id) {
+                parentname = table[index].name;
+            }
+        }
+        return parentname
+    }
+
+    //删除
+    function del(ID) {
+        event.stopPropagation();
+        shield();
+        $.ajax({
+            type: "GET",
+            url: "ACFUN.del.handle.php",
+            data: {
+                id: ID
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    alert("删除成功");
+                    cancel_shield();
+                    window.location.href = "ACFUN.manage.html";
+                } else {
+                    alert("删除失败");
+                    window.location.href = "ACFUN.manage.html";
+                }
+            },
+            error: function (jqXHR) {
+                alert("发生错误：" + jqXHR.status);
+            },
+        });
     }
 
 </script>

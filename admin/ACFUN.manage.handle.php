@@ -8,12 +8,13 @@
 require_once('../connect.php');
 $sql = "select * from nav order by id";
 $query = mysqli_query($con, $sql);
+$data = [];
 if ($query && mysqli_num_rows($query)) {
     while ($row = mysqli_fetch_assoc($query)) {
         $data[] = $row;
     }
-} else {
-    $data = array();
+//} else {
+//    $data = array();
 }
-print_r($data);
+die(json_encode($data));
 ?>

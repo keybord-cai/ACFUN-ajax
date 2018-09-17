@@ -223,7 +223,7 @@
         </div>
         <div class="row">
             <div class="ibox-content">
-                <form method="get" class="form-horizontal">
+                <form method="get" class="form-horizontal" id="staffForm">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">菜单名称</label>
                         <div class="col-sm-10">
@@ -326,7 +326,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.success) {
-                    $("#createResult").html(data.msg);
+                    $("#staffForm").reset()
                 } else {
                     $("#createResult").html("出现错误：" + data.msg);
                 }

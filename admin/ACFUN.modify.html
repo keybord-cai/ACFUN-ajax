@@ -227,7 +227,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">菜单ID</label>
                         <div class="col-sm-10">
-                            <input type="text" id="staffId" class="form-control">
+                            <select id="staffId" class="form-control m-b" name="account" onchange="go()">
+                            </select>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -295,13 +296,45 @@
         var shade = document.getElementById("shade");
         shade.style.display = "none";
     }
-
     var getid = getQueryString("id");
     if (!(typeof(getid) == "null")) {
-        getmsg()
+        getmsg(getid)
     }
 
-    function getmsg() {
+
+    //填入菜单ID的选项
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: "ACFUN.manage.handle.php",
+            dateType: "json",
+            success: function (data) {
+                var json = JSON.parse(data);
+                // console.log(json);
+                var htm1 = '';
+                for (let index = 0; index < json.length; index++) {
+                    if(json[index].id == getid){
+                        htm1 += '<option selected="selected">' + json[index].id + '</option>'
+                        continue;
+                    }
+                    htm1 += '<option>' + json[index].id + '</option>';
+                    // console.log(htm1);
+                }
+                $("#staffId").html(htm1);
+            },
+            error: function (jqXHR) {
+                alert("发生错误：" + jqXHR.status);
+            },
+        })
+    });
+
+
+    function go() {
+        getmsg($("#staffId").val());
+    }
+
+    //根据ID，填上相应的数据
+    function getmsg(id) {
         $.ajax({
             type: 'GET',
             url: "../JSON.php",
@@ -311,15 +344,13 @@
                 json = JSON.parse(data);
                 // console.log(json);
                 for (let index1 = 0; index1 < json.length; index1++) {
-                    if (json[index1].id == getid) {
-                        $("#staffId").val(json[index1].id);
+                    if (json[index1].id == id) {
                         $("#staffName").val(json[index1].name);
                         $("#staffUrl").val(json[index1].url);
                         $("#staffParent").val(parent(json[index1].parent_id,json));
                     }
                     for (let index2 = 0; index2 < json[index1].childrens.length; index2++) {
-                        if (json[index1].childrens[index2].id == getid) {
-                            $("#staffId").val(json[index1].childrens[index2].id);
+                        if (json[index1].childrens[index2].id == id) {
                             $("#staffName").val(json[index1].childrens[index2].name);
                             $("#staffUrl").val(json[index1].childrens[index2].url);
                             $("#staffParent").val(parent(json[index1].childrens[index2].parent_id,json));
@@ -344,7 +375,7 @@
         return parentname
     }
 
-
+    //传递数据给后端
     $("#change").click(function () {
         shield();
 
